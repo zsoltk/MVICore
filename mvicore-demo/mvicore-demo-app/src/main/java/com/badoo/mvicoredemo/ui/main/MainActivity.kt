@@ -1,14 +1,21 @@
 package com.badoo.mvicoredemo.ui.main
 
+import android.content.res.ColorStateList
+import android.graphics.PorterDuff
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
+import android.support.v7.app.AlertDialog
+import android.text.Html
 import android.view.MenuItem
 import android.view.View
+import com.badoo.mvicore.Transient
+import com.badoo.mvicore.onChangedToTrue
+import com.badoo.mvicore.onFieldChanged
 import com.badoo.mvicoredemo.R
 import com.badoo.mvicoredemo.auth.logout
 import com.badoo.mvicoredemo.glide.GlideApp
 import com.badoo.mvicoredemo.ui.common.ObservableSourceActivity
-import com.badoo.mvicoredemo.ui.lifecycle.LifecycleDemoActivity
 import com.badoo.mvicoredemo.ui.main.analytics.FakeAnalyticsTracker
 import com.badoo.mvicoredemo.ui.main.di.component.MainScreenInjector
 import com.badoo.mvicoredemo.ui.main.event.UiEvent
@@ -16,8 +23,22 @@ import com.badoo.mvicoredemo.ui.main.event.UiEvent.ButtonClicked
 import com.badoo.mvicoredemo.ui.main.event.UiEvent.ImageClicked
 import com.badoo.mvicoredemo.ui.main.event.UiEvent.PlusClicked
 import com.badoo.mvicoredemo.ui.main.viewmodel.ViewModel
+import init
 import io.reactivex.functions.Consumer
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.button0
+import kotlinx.android.synthetic.main.activity_main.button1
+import kotlinx.android.synthetic.main.activity_main.button2
+import kotlinx.android.synthetic.main.activity_main.button3
+import kotlinx.android.synthetic.main.activity_main.counter
+import kotlinx.android.synthetic.main.activity_main.drawerLayout
+import kotlinx.android.synthetic.main.activity_main.fab
+import kotlinx.android.synthetic.main.activity_main.help
+import kotlinx.android.synthetic.main.activity_main.image
+import kotlinx.android.synthetic.main.activity_main.imageProgress
+import kotlinx.android.synthetic.main.activity_main.navigationView
+import kotlinx.android.synthetic.main.activity_main.showToasts
+import kotlinx.android.synthetic.main.activity_main.signOut
+import kotlinx.android.synthetic.main.activity_main.toolbar
 import javax.inject.Inject
 
 class MainActivity : ObservableSourceActivity<UiEvent>(), Consumer<ViewModel> {
@@ -41,22 +62,22 @@ class MainActivity : ObservableSourceActivity<UiEvent>(), Consumer<ViewModel> {
         image.setOnClickListener { onNext(ImageClicked) }
         fab.setOnClickListener { onNext(PlusClicked) }
         signOut.setOnClickListener { logout() }
-        showToasts.setOnCheckedChangeListener { _, v -> analyticsTracker.showToasts = v }
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        navigationView.apply {
-            setCheckedItem(0)
-            setNavigationItemSelectedListener { item ->
-                item.isChecked = true
-                drawerLayout.closeDrawers()
-
-                when (item.itemId) {
-                    R.id.drawer_lifecycle -> LifecycleDemoActivity.start(this@MainActivity)
-                }
-
-                true
+        showToasts.setOnClickListener {
+            analyticsTracker.showToasts = !analyticsTracker.showToasts
+            if (analyticsTracker.showToasts) {
+                it.background.setColorFilter(ContextCompat.getColor(this, R.color.red_400), PorterDuff.Mode.SRC_ATOP)
+            } else {
+                it.background.clearColorFilter()
             }
         }
+        help.setOnClickListener {
+            HelpDialogFragment().show(supportFragmentManager, "help")
+
+        }
+
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        navigationView.init(drawerLayout, 0)
     }
 
     override fun accept(vm: ViewModel) {
@@ -64,6 +85,28 @@ class MainActivity : ObservableSourceActivity<UiEvent>(), Consumer<ViewModel> {
         buttons.forEachIndexed { idx, button -> button.setBackgroundColor(resources.getColor(vm.buttonColors[idx]))}
         imageProgress.visibility = if (vm.imageIsLoading) View.VISIBLE else View.GONE
         loadImage(vm.imageUrl)
+    }
+
+     fun accept(vm: Transient<ViewModel>) {
+        with(vm) {
+            onFieldChanged({ counter }) {
+                counter.text = it.toString()
+            }
+
+            onFieldChanged({ buttonColors }) {
+                buttons.forEachIndexed { idx, button ->
+                    button.setBackgroundColor(resources.getColor(it[idx]))
+                }
+            }
+
+            onFieldChanged({ imageIsLoading }) {
+                imageProgress.visibility = if (it) View.VISIBLE else View.GONE
+            }
+
+            onFieldChanged({ imageUrl }) {
+                loadImage(it)
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =

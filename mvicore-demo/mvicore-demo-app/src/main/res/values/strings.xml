@@ -4,5 +4,5 @@
     <string name="action_sign_out">Sign out</string>
     <string name="drawer_main">Main</string>
     <string name="drawer_lifecycle">Lifecycle</string>
-    <string name="settings_show_toasts">Show toasts</string>
+    <string name="settings_show_toasts">Toasts</string>
 </resources>

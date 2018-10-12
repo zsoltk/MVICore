@@ -23,77 +23,57 @@
             android:id="@+id/button0"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="8dp"
             android:background="@color/pink_500"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@id/button1"
             app:layout_constraintHeight_default="spread"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_default="spread"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:layout_constraintWidth_default="spread" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/button1" />
 
         <View
             android:id="@+id/button1"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="8dp"
             android:background="@color/light_blue_500"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@id/button2"
             app:layout_constraintHeight_default="spread"
-            app:layout_constraintStart_toEndOf="@id/button0"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:layout_constraintWidth_default="spread" />
+            app:layout_constraintWidth_default="spread"
+            app:layout_constraintTop_toBottomOf="@id/button0"
+            app:layout_constraintBottom_toTopOf="@id/button2" />
 
         <View
             android:id="@+id/button2"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="8dp"
             android:background="@color/lime_500"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@id/button3"
             app:layout_constraintHeight_default="spread"
-            app:layout_constraintStart_toEndOf="@id/button1"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:layout_constraintWidth_default="spread" />
+            app:layout_constraintWidth_default="spread"
+            app:layout_constraintTop_toBottomOf="@id/button1"
+            app:layout_constraintBottom_toTopOf="@id/button3" />
 
         <View
             android:id="@+id/button3"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
             android:background="@color/yellow_500"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_default="spread"
-            app:layout_constraintStart_toEndOf="@id/button2"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:layout_constraintWidth_default="spread" />
+            app:layout_constraintWidth_default="spread"
+            app:layout_constraintTop_toBottomOf="@id/button2"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <ImageView
             android:id="@+id/image"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:background="@color/grey_200"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="@id/button1"
             app:layout_constraintHeight_default="spread"
-            app:layout_constraintStart_toStartOf="@id/button0"
-            app:layout_constraintTop_toBottomOf="@+id/button0"
+            app:layout_constraintStart_toEndOf="@id/button0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:layout_constraintWidth_default="spread" />
 
         <ProgressBar
@@ -109,10 +89,9 @@
         <TextView
             android:id="@+id/counter"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:text="1"
             android:textSize="24sp"
-            android:gravity="center_vertical"
             app:layout_constraintBottom_toBottomOf="@id/image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/image"
@@ -149,7 +128,7 @@
             app:layout_constraintTop_toTopOf="@id/help"
             app:layout_constraintStart_toEndOf="@id/help"
             app:layout_constraintEnd_toEndOf="parent"
-             />
+            />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
